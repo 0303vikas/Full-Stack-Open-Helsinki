@@ -9,7 +9,7 @@ const Header = (props) => {
 
 };
 
-const ExeNum = (props) => {
+const Part = (props) => {
   return(
     <>
     <p>
@@ -26,9 +26,9 @@ const Content = (props) => {
 
   return(
   <>
-  <ExeNum part={part[0]} exercise={list[0]} />
-  <ExeNum part={part[1]} exercise={list[1]} />
-  <ExeNum part={part[2]} exercise={list[2]} />
+  <Part part={part[0]} exercise={list[0]} />
+  <Part part={part[1]} exercise={list[1]} />
+  <Part part={part[2]} exercise={list[2]} />
   
   </>)
 
