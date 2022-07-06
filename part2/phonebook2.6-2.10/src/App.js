@@ -1,12 +1,25 @@
-import { useState } from 'react'
-import {Filter, Persons,  PersonForm} from './views/filterPersonformPerson'
+import { useState, useEffect } from 'react'
+import {Filter, Persons,  PersonForm} from './components/filterPersonformPerson'
+import axios from 'axios'
 
 const App = () => {
 
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-123456' }])
+ 
+
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+
+
+  // fet persons data from db.json and set the state
+  useEffect(()=>{
+    axios
+    .get('http://localhost:3001/persons')
+    .then(e => setPersons(e.data)  )   
+      
+      
+  },[])
   
   
 
