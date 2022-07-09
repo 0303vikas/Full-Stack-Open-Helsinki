@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## .env file
+REACT_APP_API_KEY_OPEN_WEATHER=                         //FOR ADDING THE WEATHER API KEY FROM OPENWEATHERMAP.ORG
+REACT_APP_KELVIN=273.15
+
 ## Available Scripts
 
 In the project directory, you can run:
