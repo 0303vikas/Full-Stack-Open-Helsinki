@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import {SearchedCountries} from './components/countriesfilter'
 import axios from 'axios'
+import env from 'react-dotenv'
+
 
 
 const App = () => {
@@ -12,10 +14,14 @@ const App = () => {
   useEffect(()=>{
     axios
     .get('https://restcountries.com/v3.1/all')
-    .then(e => {console.log(e.data.length)
-      return setCountries(e.data)} )     
-      
+    .then(e => {console.log(e.data)
+      return setCountries(e.data)} )        
   },[]) 
+
+  const statechaningfunction = (val) => {
+    searchCountry(val)
+
+  }
 
   return (
     <div>
@@ -24,7 +30,7 @@ const App = () => {
         find countries <input value={searchCountry} onChange={(e) => setSearchCountry(e.target.value.toLowerCase())}   />        
       </div>
       
-      <SearchedCountries list={counties} searchCountry={searchCountry}  />      {/*prints all the required data for the countries*/}
+      <SearchedCountries list={counties} searchCountry={searchCountry} showdata={statechaningfunction} />      {/*prints all the required data for the countries*/}
      
     </div>
   )
