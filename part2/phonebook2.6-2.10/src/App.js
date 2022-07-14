@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import {Filter, Persons,  PersonForm} from './components/filterPersonformPerson'
+import {Filter, Persons,  PersonForm, ErrorMessage} from './components/filterPersonformPerson'
 import {getAllPersons, addPerson,updatePersonNumber} from './services/serverfunctions'
+import './index.css'
 
 
 const App = () => {
@@ -11,6 +12,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [errorColor, setErrorColor] = useState('green')
 
 
   // fet persons data from db.json and set the state
@@ -34,14 +37,30 @@ const App = () => {
     // if user name exist and number exist in database alert that they exist
     // else update the number in the database 
     if(personExistCheck.length) {
-        if(personExistCheck[0].number === newNumber) return alert(`${newName} or ${newNumber} is already added to phonebook`)
+        if(personExistCheck[0].number === newNumber) {
+                  setErrorColor('red')
+          return setErrorMessage(`${newName} or ${newNumber} is already added to phonebook`)}
         else{
-          if(window.confirm(`${personExistCheck[0].name} is already added to phonebook, replace the old number(${personExistCheck[0].number}) with a new one(${newNumber})? `))
-          updatePersonNumber(persons,personExistCheck[0].id,newNumber).then(res => setPersons(persons.map(per => per.id !== res.id ? per : res)))
-        }      
+          if(window.confirm(`${personExistCheck[0].name} is already added to phonebook, replace the old number(${personExistCheck[0].number}) with a new one(${newNumber})? `)){
+          
+          updatePersonNumber(persons,personExistCheck[0].id,newNumber)
+          .then(res => {
+                        setPersons(persons.map(per => per.id !== res.id ? per : res))
+                        setErrorColor('green')
+                        setErrorMessage(`${personExistCheck[0].name} phone number updated`)
+                        setTimeout(() => {setErrorMessage(null)},5000)
+                        })
+        
+        .catch((error) => {
+                        console.log(error)
+                        setErrorColor('red')
+                        setErrorMessage(`information of ${personExistCheck[0].name} has already been removed from server`)
+                        setTimeout(() => {setErrorMessage(null)},5000)
+                         })
+             
       
       return true
-    }
+    }}}
 
     //template for list data
     const newList = {
@@ -50,25 +69,32 @@ const App = () => {
     }
 
     addPerson(newList)
-    .then(res => setPersons([...persons,res]))    
+    .then(res => {
+                  setPersons([...persons,res])
+                  setErrorColor('green')
+                  setErrorMessage(`Added ${res.name}`)
+                  setTimeout(()=>{setErrorMessage(null)},5000 )})    
     //concating new person to old list
     
     setNewName('')
     setNewNumber('')
-  }   
+  } 
 
   return (
     <div>
 
-      <h2>Phonebook</h2>
+      
+
+      <h2>Phonebook</h2>      
       <Filter  searchName={searchName} setSearchName={setSearchName} />
 
       <h2>Add a new person</h2>
+      <ErrorMessage err={errorMessage} col={errorColor} />
       <PersonForm  formsub={formsub} newName={newName} setNewName={setNewName} setNewNumber={setNewNumber} newNumber={newNumber} />
       
       
       <h2>Numbers</h2>
-      <Persons  persons={persons} searchName={searchName} rerender={(id) => setPersons(persons.filter(n => n.id !== id))}/>
+      <Persons  persons={persons} searchName={searchName} errCol={setErrorColor} errMess={setErrorMessage} rerender={(id) => setPersons(persons.filter(n => n.id !== id))}/>
      
     </div>
   )

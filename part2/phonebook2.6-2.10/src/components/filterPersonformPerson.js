@@ -36,7 +36,7 @@ const PersonForm = ({formsub,newName,setNewName,setNewNumber,newNumber}) => {
 }
 
 //contains list of all things added, and filter input field value
-const Persons = ({persons,searchName,rerender}) => {
+const Persons = ({persons,searchName,rerender,errCol,errMess}) => {
   
   
     return(
@@ -51,7 +51,7 @@ const Persons = ({persons,searchName,rerender}) => {
                                          return(
                                                 <div key={note.id?note.id:0}>
                                                   <h3 id={note.id?note.id:0}>{note.name}   {note.number}</h3>
-                                                  <DelButton id={note}functiontry={(id) =>  rerender(id)} />
+                                                  <DelButton id={note} functiontry={(id) =>  rerender(id)}  errCol={errCol} errMess={errMess} />
       
                                                 </div>
                                                 )
@@ -62,18 +62,29 @@ const Persons = ({persons,searchName,rerender}) => {
     )
 }
 
+const ErrorMessage = ({err,col})=> {
+  if(!err) return null
+
+  return(
+    <div className='errormessage' style={{color: col}}>{err}</div>
+  )
+}
+
 
 // delete button function, displays delete
 //on button click window.confirm asks for confirmation to delete user and updates the state in app.js to rerender the updated list
 // argument id contains object with id and functiontry contains function that will change the state in the parent function
-const DelButton = ({id,functiontry}) => { 
+const DelButton = ({id,functiontry,errCol,errMess}) => { 
   
 
 return(
       <button onClick={() => {
                               if(window.confirm(`Deleting ${id.name} with id ${id.id}`)){
-                                deletePerson(id.id)
+                                deletePerson(id.id)                                
                                 functiontry(id.id)
+                                errCol('green')
+                                errMess(`Record successfully deleted.`)
+                                setTimeout(()=>{errMess(null)},5000)
                               }
   
   }}>delete</button>)}
@@ -82,5 +93,6 @@ return(
 export {
     Filter,
     Persons,
-    PersonForm
+    PersonForm,
+    ErrorMessage
 }
