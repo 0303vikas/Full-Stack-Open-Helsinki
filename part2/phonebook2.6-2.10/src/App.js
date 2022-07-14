@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {Filter, Persons,  PersonForm} from './components/filterPersonformPerson'
-import axios from 'axios'
+import {getAllPersons, addPerson,updatePersonNumber} from './services/serverfunctions'
+
 
 const App = () => {
 
@@ -14,9 +15,9 @@ const App = () => {
 
   // fet persons data from db.json and set the state
   useEffect(()=>{
-    axios
-    .get('http://localhost:3001/persons')
-    .then(e => setPersons(e.data)  )   
+
+    getAllPersons()
+    .then(res => setPersons(res))  
       
       
   },[])
@@ -30,27 +31,35 @@ const App = () => {
     let personExistCheck = persons.filter(e =>e.name === newName || e.number === newNumber)
     
     // alert of duplicate data
+    // if user name exist and number exist in database alert that they exist
+    // else update the number in the database 
     if(personExistCheck.length) {
-      alert(`${newName} or ${newNumber} is already added to phonebook`)
-      return false
+        if(personExistCheck[0].number === newNumber) return alert(`${newName} or ${newNumber} is already added to phonebook`)
+        else{
+          if(window.confirm(`${personExistCheck[0].name} is already added to phonebook, replace the old number(${personExistCheck[0].number}) with a new one(${newNumber})? `))
+          updatePersonNumber(persons,personExistCheck[0].id,newNumber).then(res => setPersons(persons.map(per => per.id !== res.id ? per : res)))
+        }      
+      
+      return true
     }
 
     //template for list data
     const newList = {
-      id: newName,
       name: newName,
       number: newNumber
     }
 
+    addPerson(newList)
+    .then(res => setPersons([...persons,res]))    
     //concating new person to old list
-    setPersons([...persons,newList])
+    
     setNewName('')
     setNewNumber('')
-  }
-   
+  }   
 
   return (
     <div>
+
       <h2>Phonebook</h2>
       <Filter  searchName={searchName} setSearchName={setSearchName} />
 
@@ -59,7 +68,7 @@ const App = () => {
       
       
       <h2>Numbers</h2>
-      <Persons  persons={persons} searchName={searchName}/>
+      <Persons  persons={persons} searchName={searchName} rerender={(id) => setPersons(persons.filter(n => n.id !== id))}/>
      
     </div>
   )
