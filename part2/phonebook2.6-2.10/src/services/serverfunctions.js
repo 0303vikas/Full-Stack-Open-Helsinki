@@ -16,10 +16,10 @@ const addPerson = (newuser) => {
     return request.then(res => res.data)
 }
 
-const deletePerson = async (userid) => {
-    const request =  await axios.delete(`${baseurl}/${userid}`)
+const deletePerson =  (userid) => {
+    const request =   axios.delete(`${baseurl}/${userid}`)
 
-    return request.then(() => console.log('updated'))
+    return request.then(() => console.log('Deleted'))
 
 }
 
