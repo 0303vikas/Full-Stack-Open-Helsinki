@@ -48,6 +48,8 @@ let persons =[{
   }]
 
 // generate random id 
+// checks the max already existing id 
+// then generates id from math.random, which will get values between [max+1,max+6)
 
 const generateId = () => {
 
@@ -93,29 +95,29 @@ app.post('/persons',(req,res)=>{
 
     const {name,number} = req.body
 
+    // if number of name is empty, display error
     if(!name || !number){
         return res.status(404).json({error: 'Name or Phone number is missing'}).end()
     }
-    console.log(typeof name.toLowerCase())
-
-    console.log(persons.find(n => n.name.toLowerCase() === 'sing'))
-
-    if(!persons.find(n => n.name.toLowerCase() === name.toLowerCase())){
+    
+    //check if name already exists
+    if(persons.find(n => n.name.toLowerCase() === name.toLowerCase())){
         return res.status(404).json({error: 'Name already exist in the database'}).end()
     }
 
+    // tempelate for new data 
     const person = {
         "name": req.body.name,
         "number": req.body.number,
         "id": generateId()
     }
 
-    persons = [...persons,person]
-
-    console.log(persons)
+    // adding new record to old list
+    persons = [...persons,person]   
 
     res.status(200).send('<h1>New contact Added<h1>')
 })
+
 
 // delete a record
 app.delete('/persons/:id', (req,res) => {
