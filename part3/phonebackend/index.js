@@ -1,4 +1,5 @@
 const express = require('express');
+var morgan = require('morgan');
 
 const PORT = 3001
 const baseUrl = `http://localhost:${PORT}/persons`;
@@ -7,6 +8,19 @@ const baseUrl = `http://localhost:${PORT}/persons`;
 const app = express();
 
 app.use(express.json())
+
+morgan.token('data', function (req,res) {return JSON.stringify(req.body)})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
+
+app.use(requestLogger)
 
 
 
@@ -115,7 +129,7 @@ app.post('/persons',(req,res)=>{
     // adding new record to old list
     persons = [...persons,person]   
 
-    res.status(200).send('<h1>New contact Added<h1>')
+    res.status(200).json({name: req.body.name,number: req.body.number})
 })
 
 
@@ -129,6 +143,12 @@ app.delete('/persons/:id', (req,res) => {
 
     res.status(204).end()
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+  
+app.use(unknownEndpoint)
 
 
 
