@@ -1,1 +1,16 @@
-GET http://localhost:3001/
+# GET http://localhost:3001/persons
+
+
+// delete person
+# DELETE http://localhost:3001/persons/1
+
+
+// add person
+POST http://localhost:3001/persons
+Content-Type: application/json
+
+{
+    "name": "kik",
+    "number": 12546963
+
+}
