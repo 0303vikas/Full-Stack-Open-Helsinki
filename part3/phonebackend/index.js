@@ -1,15 +1,18 @@
 const express = require('express');
 var morgan = require('morgan');
 const cors = require('cors')
+require('dotenv').config()
 
 
-const PORT = 3001
-const baseUrl = `http://localhost:${PORT}/persons`;
+const PORT = process.env.PORT || 3001
+
 
 
 const app = express();
 
+
 app.use(cors())
+app.use(express.static('build'))
 app.use(express.json())
 
 
@@ -164,5 +167,5 @@ app.use(unknownEndpoint)
 
 
 app.listen(PORT, () => {
-    console.log(`App running on ${baseUrl}`)
+    console.log(`App running on ${PORT}`)
 })
