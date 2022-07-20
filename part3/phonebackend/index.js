@@ -1,5 +1,7 @@
 const express = require('express');
 var morgan = require('morgan');
+const cors = require('cors')
+
 
 const PORT = 3001
 const baseUrl = `http://localhost:${PORT}/persons`;
@@ -7,8 +9,11 @@ const baseUrl = `http://localhost:${PORT}/persons`;
 
 const app = express();
 
+app.use(cors())
 app.use(express.json())
 
+
+// logs details of the request, custome made
 morgan.token('data', function (req,res) {return JSON.stringify(req.body)})
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
@@ -20,6 +25,7 @@ const requestLogger = (request, response, next) => {
     next()
 }
 
+// logs methods path and body of every request
 app.use(requestLogger)
 
 
@@ -74,7 +80,7 @@ const generateId = () => {
 
 
 // get all persons 
-app.get('/persons', (req,res) => {
+app.get('/api/persons', (req,res) => {   
 
     res.status(200).json(persons)
 
@@ -105,7 +111,7 @@ app.get('/persons/info', (req,res) => {
 })
 
 // add new person
-app.post('/persons',(req,res)=>{
+app.post('/api/persons',(req,res)=>{
 
     const {name,number} = req.body
 
@@ -134,7 +140,7 @@ app.post('/persons',(req,res)=>{
 
 
 // delete a record
-app.delete('/persons/:id', (req,res) => {
+app.delete('/api/persons/:id', (req,res) => {
 
     const deletePersonWithId = Number(req.params.id)
 
@@ -144,6 +150,8 @@ app.delete('/persons/:id', (req,res) => {
     res.status(204).end()
 })
 
+
+// An error message will be shown 
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
   }
