@@ -1,10 +1,9 @@
 import axios from 'axios'
-const baseurl = 'http://localhost:3001/persons'
+const baseurl = 'http://localhost:3001/api/persons'
 
 const getAllPersons = () => {
 
     const request = axios.get(baseurl)
-
     return request.then(res => res.data)
 
 }
@@ -12,13 +11,12 @@ const getAllPersons = () => {
 const addPerson = (newuser) => {
     
     const request = axios.post(baseurl,newuser)
-
     return request.then(res => res.data)
 }
 
 const deletePerson =  (userid) => {
-    const request =   axios.delete(`${baseurl}/${userid}`)
 
+    const request =   axios.delete(`${baseurl}/${userid}`)
     return request.then(() => console.log('Deleted'))
 
 }
@@ -35,7 +33,6 @@ const updatePersonNumber = (userlist,userid,newNumber) => {
 
 
     const request = axios.put(`${baseurl}/${userid}`,personChange)
-
     return request.then(res => res.data)
 }
 

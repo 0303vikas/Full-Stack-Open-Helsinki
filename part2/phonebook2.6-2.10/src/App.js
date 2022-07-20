@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import {Filter, Persons,  PersonForm, ErrorMessage} from './components/filterPersonformPerson'
-import {getAllPersons, addPerson,updatePersonNumber} from './services/serverfunctions'
+import {getAllPersons, addPerson,updatePersonNumber} from './services/persons'
 import './index.css'
+
 
 
 const App = () => {
