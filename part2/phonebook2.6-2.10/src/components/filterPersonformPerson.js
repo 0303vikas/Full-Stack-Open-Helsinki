@@ -1,4 +1,4 @@
-import {deletePerson} from '../services/serverfunctions'
+import {deletePerson} from '../services/persons'
 
 // this components contains the search input field
 // it has two props searchName and setSearchName, that contains and affect the state in main function
