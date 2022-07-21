@@ -32,7 +32,8 @@ const App = () => {
     e.preventDefault();
 
     // check if the names or numbers already exist in array
-    let personExistCheck = persons.filter(e =>e.name === newName || e.number === newNumber)
+    let personExistCheck =  persons.filter(e =>e.name === newName || e.number === newNumber)
+    
     
     // alert of duplicate data
     // if user name exist and number exist in database alert that they exist
