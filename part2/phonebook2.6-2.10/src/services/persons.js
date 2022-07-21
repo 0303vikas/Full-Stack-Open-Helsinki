@@ -1,11 +1,10 @@
 import axios from 'axios'
-const baseurl = 'api/persons'
+const baseurl = 'http://localhost:3001/api/persons'
 
 const getAllPersons = () => {
 
     const request = axios.get(baseurl)
     return request.then(res => res.data)
-
 }
 
 const addPerson = (newuser) => {
@@ -18,7 +17,6 @@ const deletePerson =  (userid) => {
 
     const request =   axios.delete(`${baseurl}/${userid}`)
     return request.then(() => console.log('Deleted'))
-
 }
 
 
