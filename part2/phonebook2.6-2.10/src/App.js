@@ -56,7 +56,7 @@ const App = () => {
         .catch((error) => {
                         console.log(error)
                         setErrorColor('red')
-                        setErrorMessage(`information of ${personExistCheck[0].name} has already been removed from server`)
+                        setErrorMessage(`${error.response.data.error}`)
                         setTimeout(() => {setErrorMessage(null)},5000)
                          })
              
@@ -75,7 +75,12 @@ const App = () => {
                   setPersons([...persons,res])
                   setErrorColor('green')
                   setErrorMessage(`Added ${res.name}`)
-                  setTimeout(()=>{setErrorMessage(null)},5000 )})    
+                  setTimeout(()=>{setErrorMessage(null)},5000 )})
+    .catch(error => {                      
+                                
+                  setErrorColor('red')
+                  setErrorMessage(`${error.response.data.error}`)
+                  setTimeout(()=>{setErrorMessage(null)},5000 )})   
     //concating new person to old list
     
     setNewName('')
