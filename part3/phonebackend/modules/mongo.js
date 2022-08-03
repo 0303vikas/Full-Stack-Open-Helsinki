@@ -6,14 +6,14 @@ require('dotenv').config()
 // connection string
 const dburl = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.d8mb7.mongodb.net/?retryWrites=true&w=majority`
 mongoose.connect(dburl)
-.then(result => console.log('connected to MongoDb'))
-.catch(error => console.log("Error connecting to mongdb",error.message))
+    .then(result => console.log('connected to MongoDb'))
+    .catch(error => console.log('Error connecting to mongdb',error.message))
 
 const personSchema = new mongoose.Schema({
     name: {
         type: String,
         minlength: 3,
-        required: [true,'User name is required']},
+        required: [true,'User name is required'] },
     number: {
         type: String,
         validate: {
@@ -26,7 +26,7 @@ const personSchema = new mongoose.Schema({
 
         required: [true, 'User phone number is required'],
         minlength: 8
-        }    
+    }
 })
 
 personSchema.set('toJSON', {

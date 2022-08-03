@@ -1,12 +1,12 @@
-const express = require('express');
-var morgan = require('morgan');
-const cors = require('cors');
-const Person = require('./modules/mongo.js');
-const {errorHandler} = require('./middleware/error.js')
+const express = require('express')
+var morgan = require('morgan')
+const cors = require('cors')
+const Person = require('./modules/mongo.js')
+const { errorHandler } = require('./middleware/error.js')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3001
-const app = express();
+const app = express()
 
 app.use(cors())
 app.use(express.static('build'))
@@ -27,25 +27,22 @@ const requestLogger = (request, response, next) => {
 // logs methods path and body of every request
 app.use(requestLogger)
 
-// get all persons 
-app.get('/api/persons', (req,res,next) => {   
-
+// get all persons
+app.get('/api/persons', (req,res,next) => {
     Person.find({})
-    .then(result => {
-        console.log(result)
-        res.status(200).json(result).end()
-        
-    })
-    .catch(error => next(error))   
-
+        .then(result => {
+            console.log(result)
+            res.status(200).json(result).end()
+        })
+        .catch(error => next(error))
 })
 
 // get one person
-app.get('/api/persons/:id', (req,res,next) => {    
+app.get('/api/persons/:id', (req,res,next) => {
 
-   Person.findById(req.params.id)
-   .then(result => res.status(200).json(result).end())
-    .catch(error => next(error))    
+    Person.findById(req.params.id)
+        .then(result => res.status(200).json(result).end())
+        .catch(error => next(error))
 })
 
 
@@ -59,68 +56,66 @@ app.get('/api/persons/info/random', (req,res) => {
                             `<span>${new Date()}</span>` +
                             '</div>'
 
-    res.send(displayData).end()
+        res.send(displayData).end()
 
     })
-   
 })
 
 // add new person
-app.post('/api/persons',(req,res,next)=>{
+app.post('/api/persons',(req,res,next) => {
 
-    const {name,number} = req.body
+    const { name,number } = req.body
 
     // if number of name is empty, display error
     if(!name || !number){
-        return res.status(404).json({error: 'Name or Phone number is missing'}).end()
+        return res.status(404).json({ error: 'Name or Phone number is missing' }).end()
     }
-    
+
     // //check if name already exists
     // if(persons.find(n => n.name.toLowerCase() === name.toLowerCase())){
     //     return res.status(404).json({error: 'Name already exist in the database'}).end()
-    // }  
+    // }
 
     const newPerson = new Person({
         name: name,
         number: number
     })
-    
-    newPerson.save()
-    .then(result => res.status(200).send({name: req.body.name,number: req.body.number}).end())
-    .catch(error => next(error))
 
-    
+    newPerson.save()
+        .then(result => res.status(200).send({ name: req.body.name,number: req.body.number }).end())
+        .catch(error => next(error))
+
 })
 
-//update person 
+//update person
 app.put('/api/persons/:id', (req,res,next) => {
 
-    const {number} = req.body
+    const { number } = req.body
 
     Person.findByIdAndUpdate(
         req.params.id,
-        {number},
-        {new: true, runValidators: true,context: 'query'})
-    .then(updatedNote => res.status(200).json(updatedNote).end())
-    .catch(error => next(error))
+        { number },
+        { new: true, runValidators: true,context: 'query' })
+        .then(updatedNote => res.status(200).json(updatedNote).end())
+        .catch(error => next(error))
 
 })
 
 
 // delete a record
-app.delete('/api/persons/:id', (req,res,next) => {    
+app.delete('/api/persons/:id', (req,res,next) => {
 
     Person.findByIdAndDelete(req.params.id)
-    .then(result => res.status(204).end()) 
-    .catch(error => next(error)) 
-    
+        .then(result => res.status(204).end())
+        .catch(error => next(error))
+
 })
 
-// An error message will be shown 
+// An error message will be shown
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
-  }
-  
+}
+
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
