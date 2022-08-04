@@ -47,7 +47,7 @@ app.get('/api/persons/:id', (req,res,next) => {
 
 
 
-// get number of records in list and, current date and time 
+// get number of records in list and, current date and time
 app.get('/api/persons/info/random', (req,res) => {
     Person.find({}).then(result => {
 
