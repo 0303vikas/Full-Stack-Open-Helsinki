@@ -1,4 +1,5 @@
 const listHelper = require('../utils/list_helper').favoriteBlog
+const listHelper2 = require('../utils/list_helper').mostBlogs
 
 
 describe('Max likes', () => {
@@ -66,6 +67,12 @@ describe('Max likes', () => {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
       likes: 12,
+
+    })
+  })
+
+  test('counting maximum number of blogs', () => {
+    expect(listHelper2(blogs)).toEqual({
 
     })
   })
