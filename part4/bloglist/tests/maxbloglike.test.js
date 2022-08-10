@@ -1,5 +1,7 @@
 const listHelper = require('../utils/list_helper').favoriteBlog
 const listHelper2 = require('../utils/list_helper').mostBlogs
+const listHelper3 = require('../utils/list_helper').mostLikes
+
 
 
 describe('Max likes', () => {
@@ -76,6 +78,13 @@ describe('Max likes', () => {
       author : 'Robert C. Martin',
       blogs : 3,
 
+    })
+  })
+
+  test('counting maximum number of likes', () => {
+    expect(listHelper3(blogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17
     })
   })
 

@@ -60,9 +60,33 @@ const mostBlogs = (blogs) => {
 
 }
 
+const mostLikes = (blogs) => {
+
+
+  // first use reducer to combine the author blogs,
+  // then returning an object array, further using another reducer to find the max blogs
+
+  const reducer = (pre, next) => {
+
+    if(!pre) return [...pre,{ author: next.author, likes : next.likes } ]
+    else {
+      if(pre.find(o => o.author === next.author)){
+        pre[pre.map(object => object.author).indexOf(next.author)].likes += next.likes
+        return pre
+      }else {
+        return [...pre,{ author: next.author, likes : next.likes } ]
+      }
+    }
+  }
+  return blogs.length === 0
+    ?0
+    :blogs.reduce(reducer,[]).reduce((pre,next) => pre.likes >= next.likes? pre:next)
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
