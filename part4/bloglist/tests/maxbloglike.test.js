@@ -73,6 +73,8 @@ describe('Max likes', () => {
 
   test('counting maximum number of blogs', () => {
     expect(listHelper2(blogs)).toEqual({
+      author : 'Robert C. Martin',
+      blogs : 3,
 
     })
   })

@@ -31,20 +31,14 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
 
-//   const authorrecord = []
-
-//   const formattemp = (value) => {
-//     return {
-//       author : value.author,
-//     }
-//   }
+  // first use reducer to combine the author blogs,
+  // then returning an object array, further using another reducer to find the max blogs
 
   const reducer = (pre, next) => {
 
     if(!pre) return [...pre,{ author: next.author, blogs : (pre[next.author] || 0) + 1 } ]
     else {
-      if(pre.includes(next.author)){
-        console.log(pre.includes(next.author))
+      if(pre.find(o => o.author === next.author)){
         pre[pre.map(object => object.author).indexOf(next.author)].blogs += 1
         return pre
       }else {
@@ -57,7 +51,7 @@ const mostBlogs = (blogs) => {
 
   return blogs.length === 0
     ?0
-    :blogs.reduce(reducer,[])
+    :blogs.reduce(reducer,[]).reduce((pre,next) => pre.blogs >= next.blogs? pre:next)
 
 
 
