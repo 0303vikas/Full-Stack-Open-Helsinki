@@ -1,5 +1,9 @@
-const infoHandler = (...params) => console.log(...params)
-const errorHandler = (...params) => console.error(...params)
+const infoHandler = (...params) => {
+  if (process.env.NODE_ENV !== 'test') return console.log(...params)
+}
+const errorHandler = (...params) => {
+  if (process.env.NODE_ENV !== 'test') return console.error(...params)
+}
 
 module.exports = {
   infoHandler,
