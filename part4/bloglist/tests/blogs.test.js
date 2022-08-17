@@ -96,6 +96,21 @@ describe('Testing Post api', () => {
 
     expect(blogAtEnd.map(e => e.likes)).toContain(0)
   })
+
+  test('if title and url field doesn"t exists, res will be bar request', async () => {
+    const newblog = {
+      author: 'vikas',
+      __v: 0,
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newblog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.statusCode).toBe(400)
+  })
 })
 
 afterAll(() => {
