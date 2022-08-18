@@ -18,6 +18,7 @@ const Blog = require('../models/blogschema')
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(blogs)
+
 })
 
 test('blogs are returned as json', async () => {
@@ -110,6 +111,26 @@ describe('Testing Post api', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(response.statusCode).toBe(400)
+  })
+})
+
+describe('detetion of a note', () => {
+  test('Succeeds with status code 204 if id is valid', async ()=> {
+    const blogsAtStart = await blogsInDB()
+    const blogToDelete = blogs[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete._id}`)
+      .expect(204)
+
+    const blogsAtEnd = await blogsInDB()
+    console.log(typeof blogsAtStart.length )
+
+    expect(blogsAtEnd).toHaveLength( blogsAtStart.length -1)
+
+    const contents = blogsAtEnd.map(e => e.title)
+
+    expect(contents).not.toContain(blogToDelete.title)
   })
 })
 
