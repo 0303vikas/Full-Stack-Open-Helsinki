@@ -15,10 +15,16 @@ blogroutes.post('/', async (request, response) => {
 })
 
 blogroutes.delete('/:id', async (req, res) => {
-  console.log(req.params.id)
   await Blog.findByIdAndRemove(req.params.id)
   res.status(204).end()
 
+})
+
+blogroutes.put('/:id', async (req,res) => {
+  console.log(req.body)
+ 
+  const updateblog = await Blog.findByIdAndUpdate(req.params.id,req.body,{ new: true })
+  res.status(204).json(updateblog)
 })
 
 

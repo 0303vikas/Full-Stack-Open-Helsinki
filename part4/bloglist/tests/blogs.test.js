@@ -134,6 +134,27 @@ describe('detetion of a note', () => {
   })
 })
 
+describe('Update a note with id', () => {
+  test('Updating a single note with id', async () => {
+    const blog = {
+      title: 'Hello',
+      author: 'vikas singh',
+      url: 'http://localhost:3003/api/blogs',
+      likes: 100
+    }
+
+    await api
+      .put(`/api/blogs/${blogs[0]._id}`)
+      .send(blog)
+      .expect(204)
+
+    const blogsAtEnd = await blogsInDB()
+
+    expect(blogsAtEnd.find(e => {if(String(e.id) === '5a422a851b54a676234d17f7') return e.name})).toBe(blog.name)
+  })
+
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
