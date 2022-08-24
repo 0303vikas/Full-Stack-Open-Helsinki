@@ -4,13 +4,12 @@ const User = require('../models/userschema')
 
 
 userroutes.get('/', async (req,res) => {
-  const getuser = await User.find({})
+  const getuser = await User.find({}).populate('blogs', { title: 1,author: 1 })
   res.status(200).json(getuser)
 })
 
 userroutes.post('/', async (req, res) => {
   const { username,name,password } = req.body
- console.log(username, name, password)
   const findusr = await User.findOne({ username })
 
   if(findusr) {
