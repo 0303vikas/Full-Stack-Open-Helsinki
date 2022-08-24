@@ -29,16 +29,13 @@ describe('User testing', () => {
     }
 
     const result = await api
-      .post(newUser)
+      .post('/api/users')
       .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
 
     expect(result.body.error).toContain('username must be unique')
-
-
-
   })
 
 
