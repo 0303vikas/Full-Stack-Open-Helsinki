@@ -14,13 +14,14 @@ describe('User testing', () => {
   beforeEach(async () => {
     await User.deleteMany({})
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root',name:'root', passwordHash })
+    const user = new User({ username: 'root',name:'root', passwordhash: passwordHash })
 
     await user.save()
   })
 
   test('new user with dulicate name gives error', async () => {
     const usersAtStart = await usersInDb()
+    console.log(usersAtStart)
 
     const newUser = {
       username: 'root',
@@ -61,5 +62,52 @@ describe('User testing', () => {
 
     expect(userAtEnd.map(u => u.username)).toContain(newUser.username)
   })
+
+  test('If length of username is less than 3, error 400 is displayed', async () => {
+    const usersAtStart = await usersInDb()
+
+    const newUser = {
+      username: 'ro',
+      name: 'root',
+      password: 'hisidkokd'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('User validation failed: username: Path `username` (`ro`) is shorter than the minimum allowed length (3)')
+
+    const userAtEnd = await usersInDb()
+
+    expect(userAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('If length of password is less than 3, error 400 is displayed', async () => {
+    const usersAtStart = await usersInDb()
+
+    const newUser = {
+      username: 'ro',
+      name: 'root',
+      password: 'hi'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+
+    expect(result.body.error).toContain('Password should be atleast 3 character long')
+
+    const userAtEnd = await usersInDb()
+
+    expect(userAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+
 })
 

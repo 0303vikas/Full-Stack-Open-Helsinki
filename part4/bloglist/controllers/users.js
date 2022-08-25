@@ -12,11 +12,9 @@ userroutes.post('/', async (req, res) => {
   const { username,name,password } = req.body
   const findusr = await User.findOne({ username })
 
-  if(findusr) {
-    return res.status(400).json({
-      error: 'username must be unique'
-    })
-  }
+  if(password.length < 3) return res.status(400).json({ error: 'Password should be atleast 3 character long' })
+  else if(findusr) return res.status(400).json({ error: 'username must be unique' })
+
 
   const passwordhash = await bcrypt.hash(password, 10)
 
