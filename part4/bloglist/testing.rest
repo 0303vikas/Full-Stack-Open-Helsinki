@@ -1,0 +1,18 @@
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "VikasSingh",
+    "password": "vikas"
+}
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlZpa2FzU2luZ2giLCJpZCI6IjYzMDc0NzI0OGY5OWUzYWZkNjE3NWRkMyIsImlhdCI6MTY2MTUwMzgxNH0.k-a_va7izHW8kXzLw1fl_ftp3ZGD030ixcsGT7hg7Eg
+
+{      
+      "title":"testing the authorization token",
+      "author":"Vikas Singh",
+      "url":"http://localhost:3003/api/blogs",
+      "likes": 50      
+}

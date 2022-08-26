@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const blogroutes = require('./controllers/blogs')
 const userroutes = require('./controllers/users')
+const loginrouter = require('./controllers/login')
 const mongoose = require('mongoose')
 const {
   requestLogger,
@@ -31,6 +32,7 @@ app.use(requestLogger)
 
 app.use('/api/users',userroutes)
 app.use('/api/blogs',blogroutes)
+app.use('/api/login',loginrouter)
 
 app.use(unknownEndpoint)
 app.use(errorhandlingfunction)
