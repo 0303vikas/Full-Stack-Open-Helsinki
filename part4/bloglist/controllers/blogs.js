@@ -6,35 +6,41 @@ require('dotenv').config()
 
 
 //decode token
-// const getTokenFrom = req => {
-//   const authorization = req.get('authorization')
-//   if(authorization && authorization.toLowerCase().startsWith('bearer ')) return authorization.substring(7)
-//   return null
-// }
+const decodeToken = token => {
+  return jwt.verify(token, process.env.SECRET_KEY) 
+}
 
-blogroutes.get('/', async (request, response) => {
+
+blogroutes.get('/', async (request, res) => {
   const allblogs = await Blog.find({}).populate('user',{ username: 1, name: 1 })
-  response.json(allblogs)
+  res.json(allblogs)
 
 })
 
-blogroutes.post('/', async (request, response) => {
+blogroutes.post('/', async (req, res) => {
 
-  const decodeToken = jwt.verify(request.token, process.env.SECRET_KEY)
-  if(!decodeToken.id) return response.status(401).json({ error: 'token missing or invalid' })
+  const decodedToken = decodeToken(req.token)
+  if(!decodedToken.id) return res.status(401).json({ error: 'token missing or invalid' })
 
-  const user = await User.findById(decodeToken.id)
+  const user = await User.findById(decodedToken.id)
 
-  const blog = new Blog({ ...request.body, user: user.id })
+  const blog = new Blog({ ...req.body, user: user.id })
   const saveblog = await blog.save()
   user.blogs = user.blogs.concat(saveblog.id)
   await user.save()
-  response.status(201).json(saveblog)
+  res.status(201).json(saveblog)
 })
 
 blogroutes.delete('/:id', async (req, res) => {
-  await Blog.findByIdAndRemove(req.params.id)
-  res.status(204).end()
+  const decodedToken = decodeToken(req.token)
+  if(!decodedToken.id) return res.status(401).json({ error: 'token missing or invalid' })
+
+  const blog = await Blog.findById(req.params.id)
+
+  if (blog.user.toString() === decodedToken.id.toString()) {
+    await Blog.findByIdAndDelete(blog.id)
+    res.status(204).end()
+  } else return res.status(400).json({ error: 'user doesn\'t have rights to delete the blog' })
 
 })
 
