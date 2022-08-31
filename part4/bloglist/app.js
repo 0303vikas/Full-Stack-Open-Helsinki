@@ -10,7 +10,7 @@ const {
   requestLogger,
   unknownEndpoint,
   errorhandlingfunction,
-  tokenExtractor
+  userExtractor
 }  = require('./utils/middleware')
 const {
   MONGODB_URI
@@ -31,10 +31,10 @@ app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
 
-app.use(tokenExtractor)
+
 
 app.use('/api/users',userroutes)
-app.use('/api/blogs',blogroutes)
+app.use('/api/blogs',userExtractor,blogroutes)
 app.use('/api/login',loginrouter)
 
 app.use(unknownEndpoint)

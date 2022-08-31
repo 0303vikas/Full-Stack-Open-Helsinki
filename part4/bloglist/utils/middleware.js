@@ -2,6 +2,8 @@ const {
   infoHandler,
   errorHandler
 } = require('./logger')
+const jwt = require('jsonwebtoken')
+require('dotenv').config
 
 const requestLogger = (request, response, next) => {
   infoHandler('Method:', request.method)
@@ -15,14 +17,14 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
-const tokenExtractor = (req,res,next) => {
+const userExtractor = (req,res,next) => {
 
   const authorization = req.get('authorization')
   let token = null
   if(authorization && authorization.toLowerCase().startsWith('bearer ')) {
     token = authorization.substring(7) }
-  // console.log(token)
-  req.token = token
+
+  req.user = jwt.verify(token, process.env.SECRET_KEY)
   next()
 }
 
@@ -43,5 +45,5 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorhandlingfunction,
-  tokenExtractor
+  userExtractor
 }
