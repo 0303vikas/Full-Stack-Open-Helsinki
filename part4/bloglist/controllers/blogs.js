@@ -6,11 +6,11 @@ require('dotenv').config()
 
 
 //decode token
-const getTokenFrom = req => {
-  const authorization = req.get('authorization')
-  if(authorization && authorization.toLowerCase().startsWith('bearer ')) return authorization.substring(7)
-  return null
-}
+// const getTokenFrom = req => {
+//   const authorization = req.get('authorization')
+//   if(authorization && authorization.toLowerCase().startsWith('bearer ')) return authorization.substring(7)
+//   return null
+// }
 
 blogroutes.get('/', async (request, response) => {
   const allblogs = await Blog.find({}).populate('user',{ username: 1, name: 1 })
@@ -19,8 +19,8 @@ blogroutes.get('/', async (request, response) => {
 })
 
 blogroutes.post('/', async (request, response) => {
-  const token = getTokenFrom(request)
-  const decodeToken = jwt.verify(token, process.env.SECRET_KEY)
+
+  const decodeToken = jwt.verify(request.token, process.env.SECRET_KEY)
   if(!decodeToken.id) return response.status(401).json({ error: 'token missing or invalid' })
 
   const user = await User.findById(decodeToken.id)
@@ -30,7 +30,6 @@ blogroutes.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(saveblog.id)
   await user.save()
   response.status(201).json(saveblog)
-  
 })
 
 blogroutes.delete('/:id', async (req, res) => {

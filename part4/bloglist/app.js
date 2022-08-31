@@ -9,7 +9,8 @@ const mongoose = require('mongoose')
 const {
   requestLogger,
   unknownEndpoint,
-  errorhandlingfunction
+  errorhandlingfunction,
+  tokenExtractor
 }  = require('./utils/middleware')
 const {
   MONGODB_URI
@@ -30,12 +31,15 @@ app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
 
+app.use(tokenExtractor)
+
 app.use('/api/users',userroutes)
 app.use('/api/blogs',blogroutes)
 app.use('/api/login',loginrouter)
 
 app.use(unknownEndpoint)
 app.use(errorhandlingfunction)
+
 
 module.exports = app
 
