@@ -13,17 +13,30 @@ const api = supertest(app)
 
 const Blog = require('../models/blogschema')
 
-
+var tokenExt = ''
 
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(blogs)
+  const user = {
+    username: 'root',
+    password: 'sekret',
+  }
+
+  const loginUser = await api
+    .post('/api/login')
+    .send(user)
+    .expect('Content-Type', /application\/json/)
+
+  tokenExt = loginUser.body.token
 
 })
 
 test('blogs are returned as json', async () => {
 
-  const response = await api.get('/api/blogs')
+  const response = await api
+    .get('/api/blogs')
+    .set('authorization',`bearer ${tokenExt}`)
 
   expect(response.body).toHaveLength(blogs.length)
 })
@@ -36,7 +49,7 @@ test('checking if _id or id exist in db', async () => {
 
 })
 
-describe('Testing Post api', () => {
+describe('Testing blogs api', () => {
 
   test('a valid blog can be added', async() => {
     const newBlog = {
@@ -48,9 +61,9 @@ describe('Testing Post api', () => {
       __v: 0
     }
 
-
     await api
       .post('/api/blogs')
+      .set('Authorization',`bearer ${tokenExt}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -71,6 +84,7 @@ describe('Testing Post api', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization',`bearer ${tokenExt}`)
       .send(newblog)
       .expect(400)
 
@@ -89,6 +103,7 @@ describe('Testing Post api', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization',`bearer ${tokenExt}`)
       .send(newblog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -106,6 +121,7 @@ describe('Testing Post api', () => {
 
     const response = await api
       .post('/api/blogs')
+      .set('Authorization',`bearer ${tokenExt}`)
       .send(newblog)
       .expect(400)
       .expect('Content-Type', /application\/json/)
@@ -115,12 +131,13 @@ describe('Testing Post api', () => {
 })
 
 describe('detetion of a note', () => {
-  test('Succeeds with status code 204 if id is valid', async ()=> {
+  test('Succeeds with status code 204 if id is valid', async () => {
     const blogsAtStart = await blogsInDB()
     const blogToDelete = blogs[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete._id}`)
+      .set('Authorization',`bearer ${tokenExt}`)
       .expect(204)
 
     const blogsAtEnd = await blogsInDB()
@@ -145,6 +162,7 @@ describe('Update a note with id', () => {
 
     await api
       .put(`/api/blogs/${blogs[0]._id}`)
+      .set('Authorization',`bearer ${tokenExt}`)
       .send(blog)
       .expect(204)
 
@@ -154,6 +172,7 @@ describe('Update a note with id', () => {
   })
 
 })
+
 
 afterAll(() => {
   mongoose.connection.close()
