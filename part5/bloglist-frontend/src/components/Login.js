@@ -12,8 +12,13 @@ const LoginForm = ({userlogin}) => {
 
         try{
             const user = await login({ 
-                username, password })
-
+                username, 
+                password, 
+              })
+            
+            window.localStorage.setItem(
+              'loggedBlogsappUser', JSON.stringify(user)
+            )
             userlogin(user)
             setUsername('')
             setPassword('')

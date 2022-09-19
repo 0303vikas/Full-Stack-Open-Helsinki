@@ -11,14 +11,21 @@ const App = () => {
     if(user){
     getAll(user).then(blog => {
       setBlogs(blog)
-       })
+       }
+       )}    
+  }, [user]) 
+  
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogsappUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)     
     }
-    
-  }, [user])  
+    },[])
 
   return (
     <div>      
-      {user?<BlogsForm blogs={blogs} username={user.username} />:<LoginForm userlogin={e => setUser(e)} />}
+      {user?<BlogsForm blogs={blogs} username={user.username} userlogout={e => setUser(e)} />:<LoginForm userlogin={e => setUser(e)} />}
      
      
     </div>

@@ -5,14 +5,22 @@ const Blog = ({blog}) => (
   )
 
 
-const BlogsForm = ({blogs, username}) => {
+const BlogsForm = ({blogs, username, userlogout}) => {
+
+   const logUserOut = () => {
+    window.localStorage.removeItem('loggedBlogsappUser')
+    userlogout(null)
+   }
 
     if(!blogs) return <h1>No blogs found.</h1>
 
     return(
         <div>
       <h2>blogs</h2>
-      <h3>{username} logged in </h3>
+      <div>
+      <h3>{username} logged in  <button title="logout" onClick={logUserOut}>logout</button></h3>
+    
+      </div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
