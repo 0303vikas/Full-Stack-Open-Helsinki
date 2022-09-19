@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react';
-import Blog from './components/Blog';
-import blogService from './services/blogs';
+import {getAll} from './services/blogs';
 import LoginForm from './components/Login';
-import NotesForm from './components/Notes';
+import BlogsForm from './components/Blogs';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+    if(user){
+    getAll(user).then(blog => {
+      setBlogs(blog)
+       })
+    }
+    
+  }, [user])  
 
   return (
-    <div>
-      {user?<LoginForm userlogin={setUser} />:<NotesForm />}
-      {/* <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )} */}
+    <div>      
+      {user?<BlogsForm blogs={blogs} username={user.username} />:<LoginForm userlogin={e => setUser(e)} />}
+     
+     
     </div>
   )
 }
