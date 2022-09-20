@@ -17,6 +17,7 @@ blogroutes.post('/',  async (req, res) => {
 
   const user = await User.findById(req.user.id)
 
+
   const blog = new Blog({ ...req.body, user: user.id })
   const saveblog = await blog.save()
   user.blogs = user.blogs.concat(saveblog.id)

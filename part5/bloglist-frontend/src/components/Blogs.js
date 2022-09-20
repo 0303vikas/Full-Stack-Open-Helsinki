@@ -1,3 +1,5 @@
+import NewBlog from "./CreateBlog"
+
 const Blog = ({blog}) => (
     <div>
       {blog.title} {blog.author}
@@ -5,7 +7,7 @@ const Blog = ({blog}) => (
   )
 
 
-const BlogsForm = ({blogs, username, userlogout}) => {
+const BlogsForm = ({blogs, user, userlogout}) => {
 
    const logUserOut = () => {
     window.localStorage.removeItem('loggedBlogsappUser')
@@ -16,11 +18,11 @@ const BlogsForm = ({blogs, username, userlogout}) => {
 
     return(
         <div>
-      <h2>blogs</h2>
+      <h1>blogs</h1>
       <div>
-      <h3>{username} logged in  <button title="logout" onClick={logUserOut}>logout</button></h3>
-    
+      <h4>{user.username} logged in  <button title="logout" onClick={logUserOut}>logout</button></h4>    
       </div>
+      <NewBlog user={user} />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

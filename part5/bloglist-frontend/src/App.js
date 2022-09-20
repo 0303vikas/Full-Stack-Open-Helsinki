@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div>      
-      {user?<BlogsForm blogs={blogs} username={user.username} userlogout={e => setUser(e)} />:<LoginForm userlogin={e => setUser(e)} />}
+      {user?<BlogsForm blogs={blogs} user={user} userlogout={e => setUser(e)} />:<LoginForm userlogin={e => setUser(e)} />}
      
      
     </div>
