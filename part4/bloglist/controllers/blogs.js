@@ -12,6 +12,7 @@ blogroutes.get('/', async (request, res) => {
 
 blogroutes.post('/',  async (req, res) => {
 
+  if(!req.body.title || !req.body.author || !req.body.url || !req.body.likes) return res.status(400).send({ error: 'All fields are required' })
 
   if(!req.user.id) return res.status(401).json({ error: 'token missing or invalid' })
 

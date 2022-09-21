@@ -6,6 +6,7 @@ const LoginForm = ({userlogin}) => {
     const[username, setUsername] = useState('')
     const[password, setPassword] = useState('')
     const[error, setErrorMessage] = useState('')
+    const[errorColor, setErrorColor] = useState('')
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -20,19 +21,21 @@ const LoginForm = ({userlogin}) => {
               'loggedBlogsappUser', JSON.stringify(user)
             )
             userlogin(user)
-            setUsername('')
-            setPassword('')
+            
         } catch (e) {
             setErrorMessage('Wrong credentials')
+            setErrorColor('red')
             setTimeout(() => {setErrorMessage(null)},5000)
         }
+        setUsername('')
+        setPassword('')
     }
 
 
 
     return (
       <form onSubmit={handleLogin}>
-        {error?<ErrorMessage err={error} />:null}
+        {error?<ErrorMessage err={error} col={errorColor} />:null}
         <div>
           username
             <input
