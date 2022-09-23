@@ -1,6 +1,6 @@
 import { useState } from "react"
 import NewBlog from "./CreateBlog"
-import {addLikes} from '../services/blogs'
+import {addLikes,deleteBlog} from '../services/blogs'
 
 const Blog = ({blog,user,blogUpdate}) => {
 
@@ -27,7 +27,16 @@ const Blog = ({blog,user,blogUpdate}) => {
     console.log(updatedblogs)
 
     blogUpdate()
+  }
 
+  const removeBlog = async () => {
+
+    if(window.confirm(`Remove blog You\'re NOT gonna need it! by ${blog.author}`)){
+      const blogdel = await deleteBlog(blog.id,user.token)
+      console.log(blogdel)
+
+      blogUpdate()
+    }   
 
   }
 
@@ -41,6 +50,7 @@ const Blog = ({blog,user,blogUpdate}) => {
         <p>{blog.url}</p>
         <span>{'Likes  ' + blog.likes +' '}<button onClick={likeBlog}>like</button></span>
         <p>{blog.author}</p>
+        <button onClick={removeBlog}>remove</button>
        </div>) : 
        null
        }

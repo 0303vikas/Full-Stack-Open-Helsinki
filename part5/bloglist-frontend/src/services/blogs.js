@@ -17,13 +17,19 @@ const postBlog = async (userdata,blogData) => {
   return request.data
 }
 
-const addLikes = async (blogId,blogData,userdata) => {
+const addLikes = async (blogId,blogData,usertoken) => {
   
-  const request = await axios.put(baseUrl+`/${blogId}`,blogData,{"headers": {"Authorization": `Bearer ${userdata}`}})
+  const request = await axios.put(baseUrl+`/${blogId}`,blogData,{"headers": {"Authorization": `Bearer ${usertoken}`}})
+  return request.data
+}
+
+const deleteBlog = async (blogId,usertoken) => {
+
+  const  request = await axios.delete(baseUrl+`/${blogId}`,{"headers": {"Authorization": `Bearer ${usertoken}`}})
   return request.data
 }
 
 
 
 
-export {getAll, postBlog, addLikes} ;
+export {getAll, postBlog, addLikes, deleteBlog} ;
