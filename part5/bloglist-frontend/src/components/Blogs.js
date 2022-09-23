@@ -1,7 +1,8 @@
 import { useState } from "react"
 import NewBlog from "./CreateBlog"
+import {addLikes} from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({blog,user,blogUpdate}) => {
 
   const [blogView,setBlogView] = useState(false)
   const [buttonText, setButtonText] = useState('view')
@@ -12,25 +13,45 @@ const Blog = ({blog}) => {
     else setButtonText('hide')
   }
 
+  const likeBlog = async () => {
+
+    const blogSyntax = {
+     title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes+1,
+  }
+
+
+    const updatedblogs = await addLikes(blog.id,blogSyntax,user.token)
+    console.log(updatedblogs)
+
+    blogUpdate()
+
+
+  }
+
     return (
     <div style={{border:'black 2px solid',marginBottom: '5px', padding: '1px'}}>
        {blog.title +' '}       
        <button onClick={changeBlogView}>{buttonText}</button>
+       
        {blogView ?
        (<div>
         <p>{blog.url}</p>
-        <span>{'Likes  ' + blog.likes +' '}<button>like</button></span>
+        <span>{'Likes  ' + blog.likes +' '}<button onClick={likeBlog}>like</button></span>
         <p>{blog.author}</p>
        </div>) : 
        null
        }
+       
       
       
     </div>  
 )}
 
 
-const BlogsForm = ({blogs, user, userlogout}) => {
+const BlogsForm = ({blogs, user, userlogout, blogUpdate}) => {
 
   const [addBlogFormVisibility, setAddBlogFormVisibility] = useState(false)
 
@@ -61,7 +82,7 @@ const BlogsForm = ({blogs, user, userlogout}) => {
       {addBlogFormVisibility?<NewBlog user={user} />:null}
       <button onClick={blogForm}>{newNoteCancelButton}</button>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} user={user} blogUpdate={blogUpdate}/>
       )}
 
         </div>

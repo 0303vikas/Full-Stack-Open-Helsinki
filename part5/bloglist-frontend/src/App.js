@@ -6,6 +6,7 @@ import BlogsForm from './components/Blogs';
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [reRender, setReRender] = useState(false)
 
   useEffect(() => {
     if(user){
@@ -13,7 +14,7 @@ const App = () => {
       setBlogs(blog)
        }
        )}    
-  }, [user]) 
+  }, [user,reRender]) 
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogsappUser')
@@ -23,9 +24,11 @@ const App = () => {
     }
     },[])
 
+  
+
   return (
     <div>      
-      {user?<BlogsForm blogs={blogs} user={user} userlogout={e => setUser(e)} />:<LoginForm userlogin={e => setUser(e)} />}
+      {user?<BlogsForm blogs={blogs} user={user} userlogout={e => setUser(e)} blogUpdate={() => setReRender(!reRender)} />:<LoginForm userlogin={e => setUser(e)} />}
      
      
     </div>
