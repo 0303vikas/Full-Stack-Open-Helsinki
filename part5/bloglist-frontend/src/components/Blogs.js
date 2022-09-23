@@ -1,11 +1,33 @@
 import { useState } from "react"
 import NewBlog from "./CreateBlog"
 
-const Blog = ({blog}) => (
-    <div>
-      {blog.title} {blog.author}
+const Blog = ({blog}) => {
+
+  const [blogView,setBlogView] = useState(false)
+  const [buttonText, setButtonText] = useState('view')
+
+  const changeBlogView = () => {
+    setBlogView(!blogView)
+    if(blogView) return setButtonText('view')
+    else setButtonText('hide')
+  }
+
+    return (
+    <div style={{border:'black 2px solid',marginBottom: '5px', padding: '1px'}}>
+       {blog.title +' '}       
+       <button onClick={changeBlogView}>{buttonText}</button>
+       {blogView ?
+       (<div>
+        <p>{blog.url}</p>
+        <span>{'Likes  ' + blog.likes +' '}<button>like</button></span>
+        <p>{blog.author}</p>
+       </div>) : 
+       null
+       }
+      
+      
     </div>  
-  )
+)}
 
 
 const BlogsForm = ({blogs, user, userlogout}) => {
