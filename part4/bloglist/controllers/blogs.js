@@ -10,7 +10,7 @@ blogroutes.get('/', async (request, res) => {
 
 })
 
-blogroutes.post('/',  async (req, res) => {
+blogroutes.post('/', userExtractor,  async (req, res) => {
 
   if(!req.body.title || !req.body.author || !req.body.url || !req.body.likes) return res.status(400).send({ error: 'All fields are required' })
 
@@ -26,7 +26,7 @@ blogroutes.post('/',  async (req, res) => {
   res.status(201).json(saveblog)
 })
 
-blogroutes.delete('/:id', async (req, res) => {
+blogroutes.delete('/:id', userExtractor, async (req, res) => {
  
   if(!req.user.id) return res.status(401).json({ error: 'token missing or invalid' })
 
@@ -39,7 +39,7 @@ blogroutes.delete('/:id', async (req, res) => {
 
 })
 
-blogroutes.put('/:id', async (req,res) => {
+blogroutes.put('/:id', userExtractor, async (req,res) => {
   console.log(req.body)
   const updateblog = await Blog.findByIdAndUpdate(req.params.id,req.body,{ new: true })
   res.status(204).json(updateblog)
