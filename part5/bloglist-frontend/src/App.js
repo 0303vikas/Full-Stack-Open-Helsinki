@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     if(user){
     getAll(user).then(blog => {
-      setBlogs(blog)
+      setBlogs(blog.sort((a,b)=> a.likes-b.likes))
        }
        )}    
   }, [user,reRender]) 
