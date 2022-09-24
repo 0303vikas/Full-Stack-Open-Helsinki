@@ -1,6 +1,7 @@
 import { useState } from "react"
 import NewBlog from "./CreateBlog"
 import {addLikes,deleteBlog} from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blog = ({blog,user,blogUpdate}) => {
 
@@ -31,7 +32,7 @@ const Blog = ({blog,user,blogUpdate}) => {
 
   const removeBlog = async () => {
 
-    if(window.confirm(`Remove blog You\'re NOT gonna need it! by ${blog.author}`)){
+    if(window.confirm(`Remove blog You're NOT gonna need it! by ${blog.author}`)){
       const blogdel = await deleteBlog(blog.id,user.token)
       console.log(blogdel)
 
@@ -97,6 +98,20 @@ const BlogsForm = ({blogs, user, userlogout, blogUpdate}) => {
 
         </div>
     )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  blogUpdate:  PropTypes.func.isRequired
+  
+}
+
+BlogsForm.propTypes = {
+  blogs: PropTypes.array.isRequired, 
+  user: PropTypes.object.isRequired,
+  userlogout: PropTypes.func.isRequired, 
+  blogUpdate: PropTypes.func.isRequired
 }
 
 export default BlogsForm;

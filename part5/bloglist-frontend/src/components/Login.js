@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { login } from '../services/login'
 import ErrorMessage from './ErrorMessage'
+import PropTypes from 'prop-types'
 
 const LoginForm = ({userlogin}) => {
     const[username, setUsername] = useState('')
@@ -59,6 +60,10 @@ const LoginForm = ({userlogin}) => {
     )    
 }
 
-    export default LoginForm;
+LoginForm.propTypes = {
+  userlogin: PropTypes.func.isRequired
+}
+    
+export default LoginForm;
   
    
