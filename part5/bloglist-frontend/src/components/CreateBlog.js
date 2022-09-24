@@ -1,8 +1,9 @@
-import { useState } from "react"
-import { postBlog } from "../services/blogs"
+import { useState } from 'react'
+import { postBlog } from '../services/blogs'
 import ErrorMessage from './ErrorMessage'
 
-const NewBlog = ({user}) => {
+
+const NewBlog = ({ user }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -15,10 +16,10 @@ const NewBlog = ({user}) => {
 
         try{
             const blog = {
-                "title": title,
-                "author": author,
-                "url": url,
-                "likes": like,
+                'title': title,
+                'author': author,
+                'url': url,
+                'likes': like,
             }
 
             const saveblog = await postBlog(user,blog)
@@ -31,12 +32,12 @@ const NewBlog = ({user}) => {
 
             setErrorMessage('Blog successfully save')
             setErrorColor('green')
-            setTimeout(() => {setErrorMessage(null)},5000) 
+            setTimeout(() => {setErrorMessage(null)},5000)
 
-        } catch (err) {            
+        } catch (err) {
             setErrorMessage(err.response.data.error)
             setErrorColor('red')
-            setTimeout(() => {setErrorMessage(null)},5000)             
+            setTimeout(() => {setErrorMessage(null)},5000)
 
         }
 
@@ -44,15 +45,15 @@ const NewBlog = ({user}) => {
 
     return(
         <>
-        <h2>Create New Blog</h2>
-        {error?<ErrorMessage err={error} col={errorColor} />:null}
-        <form onSubmit={addNewNote}>
-            title:<input type="text" value={title} name="Book title" onChange={({ target }) => setTitle(target.value)}/><br />
-            author:<input type="text" value={author} name="Author" onChange={({ target }) => setAuthor(target.value)}/><br />
-            url:<input type="url" value={url} name="Url of the book" onChange={({ target }) => setUrl(target.value)}/><br />
-            likes:<input type="number" value={like} name="Number of Likes" onChange={({ target }) => setLikes(target.value)}/><br />
-            <button type='submit'>Create</button>
-        </form>
+            <h2>Create New Blog</h2>
+            {error?<ErrorMessage err={error} col={errorColor} />:null}
+            <form onSubmit={addNewNote}>
+                title:<input type='text' value={title} name='Book title' onChange={({ target }) => setTitle(target.value)}/><br />
+                author:<input type='text' value={author} name='Author' onChange={({ target }) => setAuthor(target.value)}/><br />
+                url:<input type='url' value={url} name='Url of the book' onChange={({ target }) => setUrl(target.value)}/><br />
+                likes:<input type='number' value={like} name='Number of Likes' onChange={({ target }) => setLikes(target.value)}/><br />
+                <button type='submit'>Create</button>
+            </form>
         </>
     )
 }
