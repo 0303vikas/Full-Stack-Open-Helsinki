@@ -47,7 +47,7 @@ const Blog = ({ blog,user,blogUpdate }) => {
             <button onClick={changeBlogView}>{buttonText}</button>
 
             {blogView ?
-                (<div>
+                (<div className='blog'>
                     <p>{blog.url}</p>
                     <span>{'Likes  ' + blog.likes +' '}<button onClick={likeBlog}>like</button></span>
                     <p>{blog.author}</p>
@@ -112,3 +112,4 @@ BlogsForm.propTypes = {
 }
 
 export default BlogsForm
+export { Blog }
