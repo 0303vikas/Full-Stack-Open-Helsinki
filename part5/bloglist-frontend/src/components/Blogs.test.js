@@ -47,9 +47,11 @@ describe('<Blog />', () => {
         expect(screen.getByText(blog.author).textContent).toBe(blog.author)
         expect(screen.getByText(blog.likes, { exact: false })).toBeInTheDocument()
 
+        await user.click(screen.getByText('hide'))
 
-
-
+        screen.debug()
     })
+
+
 
 })
