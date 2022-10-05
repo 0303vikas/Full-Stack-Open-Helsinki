@@ -1,7 +1,7 @@
 const blogroutes = require('express').Router()
 const Blog = require('./../models/blogschema')
 const User = require('../models/userschema')
-const {userExtractor} = require('../utils/middleware')
+const { userExtractor } = require('../utils/middleware')
 require('dotenv').config()
 
 blogroutes.get('/', async (request, res) => {
@@ -27,7 +27,7 @@ blogroutes.post('/', userExtractor,  async (req, res) => {
 })
 
 blogroutes.delete('/:id', userExtractor, async (req, res) => {
- 
+
   if(!req.user.id) return res.status(401).json({ error: 'token missing or invalid' })
 
   const blog = await Blog.findById(req.params.id)

@@ -47,12 +47,12 @@ const NewBlog = ({ user }) => {
         <>
             <h2>Create New Blog</h2>
             {error?<ErrorMessage err={error} col={errorColor} />:null}
-            <form onSubmit={addNewNote}>
-                title:<input type='text' value={title} name='Book title' onChange={({ target }) => setTitle(target.value)}/><br />
-                author:<input type='text' value={author} name='Author' onChange={({ target }) => setAuthor(target.value)}/><br />
-                url:<input type='url' value={url} name='Url of the book' onChange={({ target }) => setUrl(target.value)}/><br />
-                likes:<input type='number' value={like} name='Number of Likes' onChange={({ target }) => setLikes(target.value)}/><br />
-                <button type='submit'>Create</button>
+            <form id='new_blog_form' onSubmit={addNewNote}>
+                title:<input id='new_blog_form_title' type='text' value={title} name='Book title' onChange={({ target }) => setTitle(target.value)}/><br />
+                author:<input id='new_blog_form_author' type='text' value={author} name='Author' onChange={({ target }) => setAuthor(target.value)}/><br />
+                url:<input id='new_blog_form_url' type='url' value={url} name='Url of the book' onChange={({ target }) => setUrl(target.value)}/><br />
+                likes:<input id='new_blog_form_likes' type='number' value={like} name='Number of Likes' onChange={({ target }) => setLikes(target.value)}/><br />
+                <button id='new_blog_form_submit' type='submit'>Create</button>
             </form>
         </>
     )

@@ -10,7 +10,6 @@ const {
   requestLogger,
   unknownEndpoint,
   errorhandlingfunction,
-  userExtractor
 }  = require('./utils/middleware')
 const {
   MONGODB_URI
@@ -31,7 +30,10 @@ app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
 
-
+if ( process.env.NODE_ENV === 'test') {
+  const testRouter = require('./tests/testingroutes')
+  app.use('/api/testing', testRouter)
+}
 
 app.use('/api/users',userroutes)
 app.use('/api/blogs',blogroutes)
