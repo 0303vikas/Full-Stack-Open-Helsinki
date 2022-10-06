@@ -1,50 +1,39 @@
 describe('Blog app', () => {
     beforeEach(() => {
-        cy.request('POST', 'http://localhost:3003/api/testing/reset')
-        const user ={
+        cy.signup({
             username: 'dropi',
             name: 'dropi',
             password: 'dropidropi'
-        }
-        cy.request('POST','http://localhost:3003/api/users',user)
-        cy.visit('http://localhost:3000')
+        })
     })
 
 
     it('user can be logged in', () => {
-        cy.visit('http://localhost:3000')
-        cy.get('input:first').type('dropi')
-        cy.get('input:last').type('dropidropi')
-        cy.get('#login_button').click()
-
-        cy.contains('dropi logged in')
+        cy.login({ username: 'dropi', password: 'dropidropi' })
     })
 
-    it.only('login fails with wrong password', () => {
-        cy.visit('http://localhost:3000')
-        cy.get('input:first').type('dropi')
-        cy.get('input:last').type('dropi')
-        cy.get('#login_button').click()
+    // it.only('login fails with wrong password', () => {
+    //     cy.visit('http://localhost:3000')
+    //     cy.get('input:first').type('dropi')
+    //     cy.get('input:last').type('dropi')
+    //     cy.get('#login_button').click()
 
-        cy.get('.errormessage').should('contain','Wrong credentials').and('have.css', 'color', 'rgb(255, 0, 0)')
+    //     cy.get('.errormessage').should('contain','Wrong credentials').and('have.css', 'color', 'rgb(255, 0, 0)')
 
 
-        cy.contains('Wrong credentials')
-    })
+    //     cy.contains('Wrong credentials')
+    // })
 
     describe('When logged in', () => {
         beforeEach(() => {
-            cy.visit('http://localhost:3000')
-            cy.get('input:first').type('dropi')
-            cy.get('input:last').type('dropidropi')
-            cy.get('#login_button').click()
+            cy.login({ username: 'dropi', password: 'dropidropi' })
         })
 
-        it('logout user', () => {
-            cy.get('#logout_button').click()
-            cy.contains('username')
+        // it('logout user', () => {
+        //     cy.get('#logout_button').click()
+        //     cy.contains('username')
 
-        })
+        // })
 
         it('Create new blog', () => {
             cy.contains('New Note')
@@ -58,6 +47,10 @@ describe('Blog app', () => {
             cy.get('#new_blog_form_submit').click()
 
             cy.get('#noteform_show_cancel_button').click()
+
+        // it('Create new blog', () => {
+        //     cy.contains
+        // })
 
 
 

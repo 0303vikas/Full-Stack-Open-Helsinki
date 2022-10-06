@@ -7,10 +7,26 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
+// 
+Cypress.Commands.add('signup', ({ username, name, password }) => {
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    cy.request('POST', 'http://localhost:3003/api/users', {
+        username,
+        name,
+        password
+    })
+    cy.visit('http://localhost:3000')
+})
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('login', ({ username, password }) => { 
+    cy.request('POST', 'http://localhost:3003/api/login', {
+        username, password
+    }).then(({ body }) => {
+        localStorage.setItem('loggedBlogsappUser', JSON.stringify(body))
+        cy.visit('http://localhost:3000')
+    })
+ })
 //
 //
 // -- This is a child command --
