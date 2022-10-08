@@ -7,6 +7,7 @@ const App = () => {
     const [blogs, setBlogs] = useState([])
     const [user, setUser] = useState(null)
     const [reRender, setReRender] = useState(false)
+    console.log('reRender state', reRender)
 
     useEffect(() => {
         if(user){

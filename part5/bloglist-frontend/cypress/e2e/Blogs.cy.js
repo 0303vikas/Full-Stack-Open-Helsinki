@@ -1,10 +1,12 @@
 describe('Blog app', () => {
     beforeEach(() => {
+        cy.request('POST', 'http://localhost:3003/api/testing/reset')
         cy.signup({
             username: 'dropi',
             name: 'dropi',
             password: 'dropidropi'
         })
+        cy.visit('http://localhost:3000')
     })
 
 
@@ -27,6 +29,7 @@ describe('Blog app', () => {
     describe('When logged in', () => {
         beforeEach(() => {
             cy.login({ username: 'dropi', password: 'dropidropi' })
+            
         })
 
         // it('logout user', () => {
@@ -35,28 +38,31 @@ describe('Blog app', () => {
 
         // })
 
-        it('Create new blog', () => {
-            cy.contains('New Note')
-            cy.get('#noteform_show_cancel_button').click()
-
-            cy.contains('Cancel')
-            cy.get('#new_blog_form_title').type('Atomic Habits: And Easy and proven Way to Build habits')
-            cy.get('#new_blog_form_author').type('James Clear')
-            cy.get('#new_blog_form_url').type('http://localhost:3003')
-            cy.get('#new_blog_form_likes').type(30)
-            cy.get('#new_blog_form_submit').click()
-
-            cy.get('#noteform_show_cancel_button').click()
-
         // it('Create new blog', () => {
-        //     cy.contains
+        //     cy.contains('New Note')
+        //     cy.get('#noteform_show_cancel_button').click()
+
+        //     cy.contains('Cancel')
+        //     cy.get('#new_blog_form_title').type('Atomic Habits: And Easy and proven Way to Build habits')
+        //     cy.get('#new_blog_form_author').type('James Clear')
+        //     cy.get('#new_blog_form_url').type('http://localhost:3003')
+        //     cy.get('#new_blog_form_likes').type(30)
+        //     cy.get('#new_blog_form_submit').click()
+
+        //     cy.get('#noteform_show_cancel_button').click()
         // })
+
+        it('Create new blog', () => {
+            
+            cy.createblog({ title: 'Atomic Habits: And Easy and proven Way to Build habits', author: 'James Clear', url: 'http://localhost:3003', likes: 30 })
+            cy.visit('http://localhost:3000')
+            cy.get('button').eq(1)
+        })
 
 
 
             // cy.get('noteform_show_cancel_button')
-        })
-
-
     })
+
+
 })

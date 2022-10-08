@@ -82,12 +82,12 @@ const BlogsForm = ({ blogs, user, userlogout, blogUpdate }) => {
     }
 
     return(
-        <div>
+        <div id='bloglist'>
             <h1>blogs</h1>
             <div>
                 <h4>{user.username} logged in  <button id='logout_button' title='logout' onClick={logUserOut}>logout</button></h4>
             </div>
-            {addBlogFormVisibility?<NewBlog user={user} />:null}
+            {addBlogFormVisibility?<NewBlog user={user} blogUpdate={blogUpdate} />:null}
             <button id='noteform_show_cancel_button' onClick={blogForm}>{newNoteCancelButton}</button>
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} user={user} blogUpdate={blogUpdate}/>

@@ -3,7 +3,7 @@ import { postBlog } from '../services/blogs'
 import ErrorMessage from './ErrorMessage'
 
 
-const NewBlog = ({ user }) => {
+const NewBlog = ({ user, blogUpdate }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -29,7 +29,7 @@ const NewBlog = ({ user }) => {
             setTitle('')
             setUrl('')
             setLikes(0)
-
+            blogUpdate()
             setErrorMessage('Blog successfully save')
             setErrorColor('green')
             setTimeout(() => {setErrorMessage(null)},5000)
