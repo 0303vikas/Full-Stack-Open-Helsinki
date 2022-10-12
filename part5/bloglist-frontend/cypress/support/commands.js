@@ -9,13 +9,12 @@
 // ***********************************************
 //
 Cypress.Commands.add('signup', ({ username, name, password }) => {
-
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
     cy.request('POST', 'http://localhost:3003/api/users', {
         username,
         name,
         password
     })
-
 })
 //
 // -- This is a parent command --
@@ -24,7 +23,6 @@ Cypress.Commands.add('login', ({ username, password }) => {
         username, password
     }).then(({ body }) => {
         localStorage.setItem('loggedBlogsappUser', JSON.stringify(body))
-        cy.visit('http://localhost:3000')
     })
 })
 
@@ -37,8 +35,6 @@ Cypress.Commands.add('createblog', ({ title, author, url, likes }) => {
             'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogsappUser')).token}`
         }
     })
-
-    // cy.visit('http://localhost:3000')
 
 })
 //

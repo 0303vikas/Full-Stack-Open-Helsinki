@@ -1,17 +1,20 @@
 describe('Blog app', () => {
     beforeEach(() => {
-        cy.request('POST', 'http://localhost:3003/api/testing/reset')
+        // cy.request('POST', 'http://localhost:3003/api/testing/reset')
         cy.signup({
             username: 'dropi',
             name: 'dropi',
             password: 'dropidropi'
         })
         cy.visit('http://localhost:3000')
+        cy.get('button')
     })
 
 
     it('user can be logged in', () => {
         cy.login({ username: 'dropi', password: 'dropidropi' })
+        cy.createblog({ title: 'Atomic Habits: And Easy and proven Way to Build habits', author: 'James Clear', url: 'http://localhost:3003', likes: 30 })
+
     })
 
     // it.only('login fails with wrong password', () => {
@@ -29,7 +32,11 @@ describe('Blog app', () => {
     describe('When logged in', () => {
         beforeEach(() => {
             cy.login({ username: 'dropi', password: 'dropidropi' })
-            
+            cy.createblog({ title: 'Atomic Habits: And Easy and proven Way to Build habits', author: 'James Clear', url: 'http://localhost:3003', likes: 28 })
+            cy.createblog({ title: 'Life of Vinayak', author: 'Vikas Singh', url: 'http://localhost:3000/api/blogs', likes: 29 })
+            cy.visit('http://localhost:3000')
+            cy.wait(1000)
+
         })
 
         // it('logout user', () => {
@@ -38,30 +45,45 @@ describe('Blog app', () => {
 
         // })
 
-        // it('Create new blog', () => {
-        //     cy.contains('New Note')
-        //     cy.get('#noteform_show_cancel_button').click()
-
-        //     cy.contains('Cancel')
-        //     cy.get('#new_blog_form_title').type('Atomic Habits: And Easy and proven Way to Build habits')
-        //     cy.get('#new_blog_form_author').type('James Clear')
-        //     cy.get('#new_blog_form_url').type('http://localhost:3003')
-        //     cy.get('#new_blog_form_likes').type(30)
-        //     cy.get('#new_blog_form_submit').click()
-
-        //     cy.get('#noteform_show_cancel_button').click()
-        // })
-
-        it('Create new blog', () => {
-            
-            cy.createblog({ title: 'Atomic Habits: And Easy and proven Way to Build habits', author: 'James Clear', url: 'http://localhost:3003', likes: 30 })
-            cy.visit('http://localhost:3000')
-            cy.get('button').eq(1)
+        it('View and hide blog', () => {
+            cy.get('button').eq(2).click()
+            cy.get('button').eq(2).click()
         })
 
 
 
-            // cy.get('noteform_show_cancel_button')
+
+        it('Click view blog button', () => {
+            cy.get('button').eq(2).click()
+            cy.get('.blog').find('span').should('contain', 'Likes  28 like')
+            cy.get('.blog').find('button').first().click()
+            cy.wait(1000)
+            cy.get('.blog').find('span').should('have.text', 'Likes  29 like')
+
+
+        })
+
+        it('Blogs are shown in asc order of likes', () => {
+            cy.get('button').eq(2).click()
+            cy.get('.blog').find('span').should('contain', 'Likes  28 like')
+            cy.get('button').eq(2).click()
+
+            cy.get('button').eq(3).click()
+            cy.get('.blog').find('span').should('contain', 'Likes  29 like')
+            cy.get('button').eq(3).click()
+
+        })
+
+        // it('Remove blog', () => {
+        //     cy.get('button').eq(2).click()
+        //     cy.get('.blog').find('span').should('contain', 'Likes  28 like')
+        //     cy.get('.blog').find('button').last().click()
+        //     cy.wait(1000)
+        //     cy.get('.blog').should('not.exist')
+
+        // })
+
+
     })
 
 
