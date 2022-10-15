@@ -23,15 +23,21 @@ const reducer = (state = initialState, action) => {
 
   if( action.type === 'vote'){
     const id = action.payload
-    const noteToChange = state.find(n => n.id === id)
+    const anecToChange = state.find(n => n.id === id)
     console.log(action)
     const changedNote = {
-      ...noteToChange,
-      votes: noteToChange.votes + 1
+      ...anecToChange,
+      votes: anecToChange.votes + 1
     }
 
     return state.map(note => 
       note.id !== id? note : changedNote)
+  } else if ( action.type === 'save'){
+    const content = action.data
+    const newAnec = asObject(content)
+
+    return [...state, newAnec]
+
   }
   
   console.log('state now: ', state)
@@ -41,3 +47,4 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer
+
