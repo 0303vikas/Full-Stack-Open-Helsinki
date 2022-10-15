@@ -5,13 +5,16 @@ const App = () => {
   const dispatch = useDispatch()
 
   const vote = (id) => {
-    console.log('vote', id)
+    console.log(id)
+    dispatch({ type: 'vote', payload: id})
   }
+
+  
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {anecdotes.notifications.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
