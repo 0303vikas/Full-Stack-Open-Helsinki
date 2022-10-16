@@ -1,19 +1,20 @@
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
+import React from 'react'
 
 const NewAnecdote = () => {
 
-    const dispatch = useDispatch()  
+    const dispatch = useDispatch()
 
-  const addAnecdotes = (e) => {
-    e.preventDefault()
+    const addAnecdotes = (e) => {
+        e.preventDefault()
 
-    const content = e.target.anecdoteName.value
-    e.target.anecdoteName.value = ''
+        const content = e.target.anecdoteName.value
+        e.target.anecdoteName.value = ''
 
-    dispatch(createAnecdote(content))
+        dispatch(createAnecdote(content))
 
-  }
+    }
 
     return(
         <div>
