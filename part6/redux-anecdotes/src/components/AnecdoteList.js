@@ -2,19 +2,22 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 const AnecdoteList = () => {
-    const anecdotes = useSelector(state => state)
+    const anecdotes = useSelector(state => {
+        console.log('This is it',state)
+        return state.notifications.sort((a,b) => b.votes-a.votes)
+    })
     const dispatch = useDispatch()
 
-    const vote = (id) => {
+    const vote =  (id) => {
+        
         console.log(id)
         dispatch({ type: 'vote', payload: id})
-        console.log('this is working')
-      }
+    }
 
     return(
         <div>
              
-            {anecdotes.notifications.sort((a,b) => b.votes-a.votes).map(anecdote =>
+            {anecdotes.map(anecdote =>
                 <div key={anecdote.id}>
                 <div>
                     {anecdote.content}
