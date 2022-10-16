@@ -6,13 +6,17 @@ import { notifiChange } from '../reducers/notificationReducer'
 const AnecdoteList = () => {
     const anecdotes = useSelector(state => {
         console.log('This is it',state)
-        return state.anecmod.slice().sort((a,b) => b.votes-a.votes)
+        if(state.filterlist.value !== null){
+        const regEq = RegExp(`.*${state.filterlist.value.toLowerCase().split('').join('.*')}.*`)
+        return state.anecmod.slice().sort((a,b) => b.votes-a.votes).filter(anec => anec.content.toLowerCase().match(regEq)) }        
+        else return state.anecmod.slice().sort((a,b) => b.votes-a.votes)
+            
+        
     })
     const dispatch = useDispatch()
 
-    const vote =  (id, content) => {
+    const vote =  (id, content) => {    
         
-        console.log(id)
         dispatch(voteAnecdote(id))
         dispatch(notifiChange(content))
         setTimeout(() => dispatch(notifiChange(null)), 5000)

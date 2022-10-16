@@ -28,7 +28,7 @@ const reducerSlice = createSlice({
     voteAnecdote: (state, action) => {
       const id = action.payload
       const anecToChange = state.find(n => n.id === id)
-      console.log(action)
+      
       const changedNote = {
         ...anecToChange,
         votes: anecToChange.votes + 1
@@ -42,7 +42,8 @@ const reducerSlice = createSlice({
 
       return [...state, newAnec]
 
-    }
+    },
+    
 
   }
 

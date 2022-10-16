@@ -1,5 +1,5 @@
 const notifiReduce = (state = null, action) => {
-    console.log('acction payload',action.payload)
+    
     if(action.type === 'UPDATE_VOTE') return action.payload
     else return state
 }
