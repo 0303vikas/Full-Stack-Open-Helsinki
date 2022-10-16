@@ -1,4 +1,14 @@
+import { useSelector } from 'react-redux'
+
+
 const Notification = () => {
+  const anecdoteNotification = useSelector(state => { 
+    console.log(state.updatevote)
+    if(state.updatevote === null) return ''
+    else return `you voted '${state.updatevote}'`
+  })
+
+  
   const style = {
     border: 'solid',
     padding: 10,
@@ -6,7 +16,7 @@ const Notification = () => {
   }
   return (
     <div style={style}>
-      render here notification...
+      {anecdoteNotification}
     </div>
   )
 }
