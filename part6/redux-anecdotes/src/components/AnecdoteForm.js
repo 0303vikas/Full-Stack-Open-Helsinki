@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux'
+import { createAnecdote } from '../reducers/anecdoteReducer'
 
 const NewAnecdote = () => {
 
@@ -10,10 +11,7 @@ const NewAnecdote = () => {
     const content = e.target.anecdoteName.value
     e.target.anecdoteName.value = ''
 
-    dispatch({
-      type: 'save',
-      data: content
-    })
+    dispatch(createAnecdote(content))
 
   }
 
