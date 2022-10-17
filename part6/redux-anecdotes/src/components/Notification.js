@@ -1,12 +1,8 @@
-import { useSelector } from 'react-redux'
+import {  connect } from 'react-redux'
 import React from 'react'
 
-const Notification = () => {
-    const anecdoteNotification = useSelector(state => {
+const Notification = (props) => {
 
-        if(state.updatevote === null) return ''
-        else return `you voted '${state.updatevote}'`
-    })
 
 
     const style = {
@@ -16,9 +12,19 @@ const Notification = () => {
     }
     return (
         <div style={style}>
-            {anecdoteNotification}
+            {props.message}
         </div>
     )
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+    return {
+
+        message: (state.updatevote === null
+            ? ''
+            : `you voted '${state.updatevote}'`
+        )
+    }}
+
+
+export default connect(mapStateToProps)(Notification)

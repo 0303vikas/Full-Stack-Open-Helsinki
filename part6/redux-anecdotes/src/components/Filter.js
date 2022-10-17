@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { filterWithWord } from '../reducers/filterReducer'
 import React from 'react'
 
-const Filter = () => {
+const Filter = (props) => {
     const [filterinput, setFilterInput] = useState('')
-    const dispatch = useDispatch()
+
     const handleChange = (e) => {
         e.preventDefault()
         setFilterInput(e.target.value)
-        dispatch(filterWithWord(e.target.value))
+        props.filterWithWord(e.target.value)
 
     }
     const style = {
@@ -25,4 +25,10 @@ const Filter = () => {
     )
 }
 
-export default Filter
+
+
+const mapDispatchToProps = {
+    filterWithWord,
+}
+
+export default connect(null, mapDispatchToProps)(Filter)

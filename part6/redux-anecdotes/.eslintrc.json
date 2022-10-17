@@ -20,7 +20,7 @@
         "indent": [
             "error",
             4
-        ],
+        ],"react/prop-types": "off",
         "linebreak-style": [
             "error",
             "windows"
