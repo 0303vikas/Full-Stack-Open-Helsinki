@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { postNew, getAll } from '../services/backend'
 // const anecdotesAtStart = [
 //   'If it hurts, do it more often',
 //   'Adding manpower to a late software project makes it later!',
@@ -52,5 +52,15 @@ const reducerSlice = createSlice({
 
 
 export const { voteAnecdote, createAnecdote, setAnecdotes, setSingleAnecdote } = reducerSlice.actions
+export const saveAnecdotes = () => async dispatch => {
+    const anecdotes = await getAll()
+    dispatch(setAnecdotes(anecdotes))
+}
+
+export const saveNewAnecdote = content => async dispatch => {
+    const anecdote = await postNew(content)
+    dispatch(setSingleAnecdote(anecdote))
+}
+
 export default reducerSlice.reducer
 

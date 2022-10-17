@@ -4,15 +4,15 @@ import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
 import Filter from './components/Filter'
 import { useEffect } from 'react'
-import { getAll } from './services/backend'
-import { setAnecdotes } from './reducers/anecdoteReducer'
+import { saveAnecdotes } from './reducers/anecdoteReducer'
 import React from 'react'
+
 
 const App = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        getAll().then(data => dispatch(setAnecdotes(data)))
+        dispatch(saveAnecdotes())
     },[dispatch])
 
 

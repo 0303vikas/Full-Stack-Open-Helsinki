@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { setSingleAnecdote } from '../reducers/anecdoteReducer'
 import React from 'react'
-import { postNew } from '../services/backend'
+import { saveNewAnecdote } from '../reducers/anecdoteReducer'
 
 const NewAnecdote = () => {
 
@@ -12,7 +11,7 @@ const NewAnecdote = () => {
 
         const content = e.target.anecdoteName.value
         e.target.anecdoteName.value = ''
-        postNew(content).then(data => dispatch(setSingleAnecdote(data)))
+        dispatch(saveNewAnecdote(content))
 
     }
 

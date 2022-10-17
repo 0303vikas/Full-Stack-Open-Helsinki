@@ -53,6 +53,11 @@
       "content": "this time we have separate single anec save option ",
       "votes": 0,
       "id": 11
+    },
+    {
+      "content": "This is trial of redux thux",
+      "votes": 0,
+      "id": 12
     }
   ]
 }
