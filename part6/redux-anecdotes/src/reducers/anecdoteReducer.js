@@ -40,6 +40,9 @@ const reducerSlice = createSlice({
 
             return [...state, newAnec]
         },
+        setSingleAnecdote: (state,action) => {
+            state.push(action.payload)
+        },
         setAnecdotes: (state,action) => {
             return action.payload
         }
@@ -48,6 +51,6 @@ const reducerSlice = createSlice({
 })
 
 
-export const { voteAnecdote, createAnecdote, setAnecdotes } = reducerSlice.actions
+export const { voteAnecdote, createAnecdote, setAnecdotes, setSingleAnecdote } = reducerSlice.actions
 export default reducerSlice.reducer
 
