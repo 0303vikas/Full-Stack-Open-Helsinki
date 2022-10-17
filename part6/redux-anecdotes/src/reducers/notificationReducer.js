@@ -4,11 +4,12 @@ const notifiReduce = (state = null, action) => {
     else return state
 }
 
-const notifiChange = newNotifi => {
-    return{
+const notifiChange = newNotifi => async dispatch => {
+    dispatch({
         type: 'UPDATE_VOTE',
-        payload: newNotifi
-    }
+        payload: newNotifi })
+    setTimeout(() => dispatch({ type: 'UPDATE_VOTE',
+        payload: null }) ,5000)
 }
 
 export default notifiReduce
