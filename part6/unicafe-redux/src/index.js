@@ -39,6 +39,7 @@ const App = () => {
       <div>good {store.getState().good}</div>
       <div>ok {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
+      <div></div>
     </div>
   )
 }
